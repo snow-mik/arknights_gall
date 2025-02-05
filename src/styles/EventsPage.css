@@ -4,78 +4,155 @@
   --accent-color: #4a90e2;
 }
 
-/* Header 스타일 */
-header {
-  position: relative;
-  z-index: 10;
-  margin-bottom: 0;
+/* 이벤트 페이지 전용 스타일 - 최상위 컨테이너에 .events-page를 붙입니다 */
+.events-page {
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 1rem;
-  background-color: var(--primary-bg-color);
-  /* 기존 도트 패턴 관련 background-image 삭제 */
 }
 
-.content-wrapper {
-  background: var(--secondary-bg-color);
+/* 헤더 (이벤트 페이지 전용 h1) */
+.events-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin: 1.5rem 0;
+  color: var(--accent-color);
+  text-shadow: 0 0 10px rgba(0, 209, 212, 0.3);
+}
+
+/* 검색 섹션 */
+.events-page #search-section {
+  max-width: 600px;
+  margin: 1.5rem auto;
+  display: flex;
+  gap: 0.5rem;
   padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.events-page #operator-search {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(0, 209, 212, 0.3);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 1rem;
+}
+
+.events-page #operator-search:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.events-page .search-button {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #008688, var(--accent-color));
+  border: none;
   border-radius: 8px;
   color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.header-title h1 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.header-buttons {
-  display: flex;
-  gap: 1rem;
-}
-
-/* 버튼 기본 스타일 */
-.header-button {
-  display: inline-block;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase;
-  padding: 0.5rem 1rem;
-  background: none;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-.header-button:hover,
-.header-button.active {
-  transform: scale(1.05);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+.events-page .search-button:hover {
+  background: linear-gradient(135deg, var(--accent-color), #00f5f8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 209, 212, 0.3);
 }
 
-.header-button:active {
+.events-page .search-button:active {
+  transform: translateY(1px);
+}
+
+/* 클래스/공지사항 버튼 */
+.events-page #class-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+/* fancy-button 스타일 */
+.events-page .fancy-button {
+  padding: 0.75rem 1.5rem;
+  background: rgba(18, 18, 18, 0.8);
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.events-page .fancy-button:hover {
+  background: rgba(0, 209, 212, 0.1);
+  box-shadow: 0 0 10px rgba(0, 209, 212, 0.2);
+}
+
+.events-page .fancy-button:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 5px rgba(0, 209, 212, 0.1);
 }
 
-/* 버튼 밑줄 효과 */
-.header-button::after {
+.events-page .fancy-button.active {
+  background: linear-gradient(135deg, var(--accent-color), #00f5f8);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 0 15px rgba(0, 209, 212, 0.4);
+}
+
+.events-page .fancy-button::after {
   content: '';
-  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 0;
-  height: 2px;
-  background: var(--accent-color);
-  transition: width 0.3s ease;
+  height: 0;
+  background: rgba(0, 209, 212, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease-out, height 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
 }
 
-.header-button:hover::after,
-.header-button.active::after {
-  width: 100%;
+.events-page .fancy-button:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 1;
+  transition: 0s;
 }
 
-/* menu-item 스타일 */
-.menu-item {
+/* 공지사항 카드 */
+.events-page .notice-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--accent-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 0 15px rgba(0, 209, 212, 0.15);
+}
+
+.events-page .notice-title {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px rgba(0, 209, 212, 0.3);
+}
+
+.events-page .notice-text {
+  font-size: 1rem;
+  color: #ddd;
+  line-height: 1.8;
+}
+
+/* 배너(메뉴 아이템) 그리드 */
+.events-page .menu-item {
   position: relative;
   width: 100%;
   height: 50vh;
@@ -85,44 +162,42 @@ header {
   justify-content: center;
 }
 
-/* 오른쪽에 그라데이션 오버레이 (페이드 효과) */
-.menu-item::after {
+.events-page .menu-item::after {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
-  /* 오른쪽 끝의 20% 영역에 그라데이션 적용 */
   width: 20%;
   height: 100%;
   background: linear-gradient(to left, var(--primary-bg-color), transparent);
   pointer-events: none;
 }
 
-.menu-item + .menu-item {
+.events-page .menu-item + .menu-item {
   margin-top: 0;
 }
 
-/* 배경 이미지 스타일 수정: 왼쪽 정렬 및 가로 확대 */
-/* 수정된 .bg-image 클래스 (우선순위를 높이기 위해 !important 추가) */
-.bg-image {
+/* 배경 이미지 */
+.events-page .bg-image {
   position: absolute;
   inset: 0;
-  background-size: 110% auto !important; /* 가로 확대, 높이는 자동 유지 */
-  background-position: left center !important; /* 왼쪽 중앙 정렬 */
+  height: 100%;
+  width: 100%;
+  background-size: 110% auto !important;
+  background-position: left center !important;
   background-repeat: no-repeat;
   filter: grayscale(100%);
   transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-
-.menu-item:hover .bg-image,
-.menu-item.active .bg-image {
+.events-page .menu-item:hover .bg-image,
+.events-page .menu-item.active .bg-image {
   filter: grayscale(0%);
   opacity: 1;
 }
 
 /* 메뉴 텍스트 */
-.menu-text {
+.events-page .menu-text {
   font-size: 2rem;
   font-weight: 700;
   color: white;
@@ -138,20 +213,20 @@ header {
 
 /* 모바일 반응형 스타일 */
 @media (max-width: 640px) {
-  .menu-item {
+  .events-page .menu-item {
     height: 20vh;
   }
-  .menu-text {
+  .events-page .menu-text {
     font-size: 1.1rem;
     left: 1rem;
     top: 1rem;
   }
-  .bg-image {
+  .events-page .bg-image {
     filter: none;
     transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
   }
-  .menu-item:active .bg-image,
-  .menu-item.active .bg-image {
+  .events-page .menu-item:active .bg-image,
+  .events-page .menu-item.active .bg-image {
     transform: scale(0.98);
     filter: brightness(80%);
   }

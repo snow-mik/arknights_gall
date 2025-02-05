@@ -1,7 +1,7 @@
+// src/pages/EventsPage.jsx
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import '../styles/EventsPage.css';
 
-// 고정 하단 네비게이션 바 컴포넌트 (StickyFooter)
 function StickyFooter() {
   return (
     <div className="sticky-footer fixed bottom-0 left-0 right-0 z-50 bg-black py-2 shadow-md">
@@ -27,7 +27,6 @@ function StickyFooter() {
   );
 }
 
-// MenuItem 컴포넌트
 function MenuItem({ item, activeId, onPointerDown, onPointerUp }) {
   return (
     <div
@@ -44,7 +43,7 @@ function MenuItem({ item, activeId, onPointerDown, onPointerUp }) {
         <div
           className="bg-image"
           style={{
-            backgroundImage: `url(${item.bgImage})`,
+            backgroundImage: `url(${import.meta.env.BASE_URL}${item.bgImage})`,
             backgroundSize: "110% auto",
             backgroundPosition: "left center",
             backgroundRepeat: "no-repeat",
@@ -60,7 +59,6 @@ const EventsPage = () => {
   const [activeId, setActiveId] = useState(null);
   const timeoutRef = useRef(null);
 
-  // 이벤트 아이템 데이터 배열 (이미지 경로는 절대경로로 사용)
   const menuItems = [
     { id: 'preview-nymph', text: '용광로의 부활', bgImage: '/images/event-nymph.jpg', link: 'https://gall.dcinside.com/m/mibj/5212701' },
     { id: 'preview-roguelike-sarkaz', text: '통합전략#5 살카즈의 영원한 불가사의', bgImage: '/images/event-roguelike-sarkaz.png', link: 'https://gall.dcinside.com/m/mibj/5464489' },
@@ -83,7 +81,6 @@ const EventsPage = () => {
   const handlePointerDown = useCallback((id) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setActiveId(id);
-    // 600ms 후 active 상태 초기화 (필요에 따라 조정)
     timeoutRef.current = setTimeout(() => {
       setActiveId(null);
     }, 600);
@@ -101,11 +98,8 @@ const EventsPage = () => {
   }, []);
 
   return (
-    <div className="events-page">
-      {/* 스크롤 시 항상 보이는 고정 하단 네비게이션 바 */}
+    <div className="container events-page">
       <StickyFooter />
-
-      {/* 메인 콘텐츠에 하단 여백 추가하여 고정 바와 겹치지 않도록 함 */}
       <main className="max-w-7xl mx-auto px-4 py-8 mb-16">
         <div className="grid grid-cols-1 gap-3">
           {menuItems.map((item) => (
@@ -120,7 +114,7 @@ const EventsPage = () => {
         </div>
       </main>
     </div>
-  );
+  );  
 };
 
 export default EventsPage;
