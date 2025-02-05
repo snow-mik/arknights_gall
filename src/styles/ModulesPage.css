@@ -1,0 +1,356 @@
+/* ModulesPage 전용 스타일 - 최상위 컨테이너에 .modules-page 클래스가 적용되어야 함 */
+
+/* 기존 글로벌 리셋 및 body 스타일은 제거합니다.
+   (이 파일은 ModulesPage 전용이므로, 이미 App.jsx 또는 index.css에 글로벌 리셋이 있을 가능성이 높습니다.) */
+
+/* ModulesPage 전용 컨테이너 */
+.modules-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* 헤더 (ModulesPage 전용 h1) */
+.modules-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin: 1.5rem 0;
+  color: #00d1d4;
+  text-shadow: 0 0 10px rgba(0, 209, 212, 0.3);
+}
+
+/* 검색 섹션 */
+.modules-page #search-section {
+  max-width: 600px;
+  margin: 1.5rem auto;
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.modules-page #operator-search {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(0, 209, 212, 0.3);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-size: 1rem;
+}
+
+.modules-page #operator-search:focus {
+  outline: none;
+  border-color: #00d1d4;
+}
+
+.modules-page .search-button {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #008688, #00d1d4);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modules-page .search-button:hover {
+  background: linear-gradient(135deg, #00d1d4, #00f5f8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 209, 212, 0.3);
+}
+
+.modules-page .search-button:active {
+  transform: translateY(1px);
+}
+
+/* 클래스/공지사항 버튼 */
+.modules-page #class-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+/* fancy-button 스타일 */
+.modules-page .fancy-button {
+  padding: 0.75rem 1.5rem;
+  background: rgba(18, 18, 18, 0.8);
+  border: 2px solid #00d1d4;
+  border-radius: 8px;
+  color: #00d1d4;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.modules-page .fancy-button:hover {
+  background: rgba(0, 209, 212, 0.1);
+  box-shadow: 0 0 10px rgba(0, 209, 212, 0.2);
+}
+
+.modules-page .fancy-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 0 5px rgba(0, 209, 212, 0.1);
+}
+
+.modules-page .fancy-button.active {
+  background: linear-gradient(135deg, #00d1d4, #00f5f8);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 0 15px rgba(0, 209, 212, 0.4);
+}
+
+.modules-page .fancy-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 209, 212, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease-out, height 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
+}
+
+.modules-page .fancy-button:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 1;
+  transition: 0s;
+}
+
+/* 공지사항 카드 */
+.modules-page .notice-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #00d1d4;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 0 15px rgba(0, 209, 212, 0.15);
+}
+
+.modules-page .notice-title {
+  font-size: 1.5rem;
+  color: #00d1d4;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px rgba(0, 209, 212, 0.3);
+}
+
+.modules-page .notice-text {
+  font-size: 1rem;
+  color: #ddd;
+  line-height: 1.8;
+}
+
+/* 서브클래스 선택 영역 스타일링 */
+.modules-page #subclass-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 2px solid #00d1d4;
+  box-shadow: 0 0 15px rgba(0, 209, 212, 0.15);
+}
+
+/* 오퍼레이터 카드 그리드 */
+.modules-page #operator-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.modules-page .operator-card {
+  background: #1a1a1a;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.modules-page .operator-card.selected {
+  border-color: #00d1d4;
+  box-shadow: 0 0 20px rgba(0, 209, 212, 0.2);
+  transform: translateY(-2px);
+}
+
+.modules-page .card-header {
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.modules-page .operator-thumb {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.modules-page .operator-info {
+  margin-top: 1rem;
+}
+
+.modules-page .operator-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #00d1d4;
+}
+
+.modules-page .operator-class {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.25rem;
+}
+
+.modules-page .card-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+}
+
+.modules-page .card-details.expanded {
+  max-height: 2000px;
+  padding: 1rem;
+  opacity: 1;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.modules-page .module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modules-page .module-item {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.modules-page .module-item h4 {
+  color: #00d1d4;
+  margin-bottom: 0.5rem;
+}
+
+.modules-page .module-img {
+  width: 100%;
+  border-radius: 4px;
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+}
+
+.modules-page .module-img:hover {
+  transform: scale(1.02);
+}
+
+/* 줌 오버레이 */
+.modules-page .zoom-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  overflow: auto;
+}
+
+.modules-page .zoom-content {
+  position: relative;
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.modules-page .zoom-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00d1d4;
+  font-size: 2rem;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  border: 2px solid #00d1d4;
+  transition: all 0.3s ease;
+  z-index: 1001;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.modules-page .zoom-close:hover {
+  transform: scale(1.1);
+  background: rgba(0, 209, 212, 0.2);
+  box-shadow: 0 0 15px rgba(0, 209, 212, 0.5);
+}
+
+.modules-page .zoom-close:active {
+  transform: scale(0.95);
+}
+
+.modules-page #zoomed-image {
+  width: 100%;
+  height: auto;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .modules-page .container {
+      padding: 0.5rem;
+  }
+
+  .modules-page #operator-list {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0.5rem;
+  }
+
+  .modules-page .fancy-button {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+  }
+
+  .modules-page .operator-thumb {
+      height: 200px;
+  }
+
+  .modules-page .module-grid {
+      grid-template-columns: 1fr;
+  }
+
+  .modules-page .zoom-content {
+      width: 95%;
+      margin: 1rem auto;
+  }
+}

@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 페이지 전환 효과 (react-transition-group용) */
+.fade-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.fade-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+
+.mobile-menu-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.mobile-menu-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.mobile-menu-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.mobile-menu-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}

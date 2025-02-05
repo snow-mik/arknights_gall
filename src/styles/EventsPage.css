@@ -1,0 +1,158 @@
+:root {
+  --primary-bg-color: #000; /* 완전한 검은색 */
+  --secondary-bg-color: rgba(0, 0, 0, 0.9);
+  --accent-color: #4a90e2;
+}
+
+/* Header 스타일 */
+header {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 0;
+  padding: 1rem;
+  background-color: var(--primary-bg-color);
+  /* 기존 도트 패턴 관련 background-image 삭제 */
+}
+
+.content-wrapper {
+  background: var(--secondary-bg-color);
+  padding: 1rem;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+/* 버튼 기본 스타일 */
+.header-button {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header-button:hover,
+.header-button.active {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.header-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 밑줄 효과 */
+.header-button::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--accent-color);
+  transition: width 0.3s ease;
+}
+
+.header-button:hover::after,
+.header-button.active::after {
+  width: 100%;
+}
+
+/* menu-item 스타일 */
+.menu-item {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 오른쪽에 그라데이션 오버레이 (페이드 효과) */
+.menu-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* 오른쪽 끝의 20% 영역에 그라데이션 적용 */
+  width: 20%;
+  height: 100%;
+  background: linear-gradient(to left, var(--primary-bg-color), transparent);
+  pointer-events: none;
+}
+
+.menu-item + .menu-item {
+  margin-top: 0;
+}
+
+/* 배경 이미지 스타일 수정: 왼쪽 정렬 및 가로 확대 */
+/* 수정된 .bg-image 클래스 (우선순위를 높이기 위해 !important 추가) */
+.bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: 110% auto !important; /* 가로 확대, 높이는 자동 유지 */
+  background-position: left center !important; /* 왼쪽 중앙 정렬 */
+  background-repeat: no-repeat;
+  filter: grayscale(100%);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+
+.menu-item:hover .bg-image,
+.menu-item.active .bg-image {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+/* 메뉴 텍스트 */
+.menu-text {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
+               0 0 20px rgba(255, 255, 255, 0.3);
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  letter-spacing: -0.02em;
+  opacity: 0.9;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* 모바일 반응형 스타일 */
+@media (max-width: 640px) {
+  .menu-item {
+    height: 20vh;
+  }
+  .menu-text {
+    font-size: 1.1rem;
+    left: 1rem;
+    top: 1rem;
+  }
+  .bg-image {
+    filter: none;
+    transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+  }
+  .menu-item:active .bg-image,
+  .menu-item.active .bg-image {
+    transform: scale(0.98);
+    filter: brightness(80%);
+  }
+}
