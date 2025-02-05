@@ -23,21 +23,35 @@
 }
 
 
-.mobile-menu-enter {
+/* 모바일 메뉴 오버레이 애니메이션 */
+.mobile-menu-overlay-enter {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-20px);
 }
-.mobile-menu-enter-active {
+.mobile-menu-overlay-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 300ms ease, transform 300ms ease;
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
 }
-.mobile-menu-exit {
+.mobile-menu-overlay-exit {
   opacity: 1;
   transform: translateY(0);
 }
-.mobile-menu-exit-active {
+.mobile-menu-overlay-exit-active {
   opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 300ms ease, transform 300ms ease;
+  transform: translateY(-20px);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
 }
+
+/* 
+.mobile-menu-content {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+.mobile-menu-overlay-enter .mobile-menu-content,
+.mobile-menu-overlay-exit-active .mobile-menu-content {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 300ms ease-out, opacity 300ms ease-out;
+}
+*/
