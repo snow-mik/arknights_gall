@@ -45,7 +45,7 @@ function MenuItem({ item, activeId, onPointerDown, onPointerUp }) {
           style={{
             backgroundImage: `url(${import.meta.env.BASE_URL}${item.bgImage})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            // 인라인 backgroundPosition은 제거합니다.
             backgroundRepeat: "no-repeat",
           }}
         />
@@ -100,9 +100,9 @@ const EventsPage = () => {
   return (
     <div className="container events-page">
       <StickyFooter />
-      <main className="max-w-7xl mx-auto px-4 py-8 mb-16">
-        {/* 반응형 gap: 모바일은 gap-0, 데스크탑(md 이상)은 gap-1으로 변경 */}
-        <div className="grid grid-cols-1 gap-0 md:gap-1">
+      {/* 메인 컨테이너의 좌우 패딩을 모바일에서 줄임 */}
+      <main className="max-w-7xl mx-auto px-1 md:px-3 py-8 mb-16">
+        <div className="grid grid-cols-1 gap-2 md:gap-3">
           {menuItems.map((item) => (
             <MenuItem
               key={item.id}
