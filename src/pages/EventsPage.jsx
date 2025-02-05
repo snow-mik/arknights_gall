@@ -44,8 +44,8 @@ function MenuItem({ item, activeId, onPointerDown, onPointerUp }) {
           className="bg-image"
           style={{
             backgroundImage: `url(${import.meta.env.BASE_URL}${item.bgImage})`,
-            backgroundSize: "110% auto",
-            backgroundPosition: "left center",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
           }}
         />
@@ -101,7 +101,8 @@ const EventsPage = () => {
     <div className="container events-page">
       <StickyFooter />
       <main className="max-w-7xl mx-auto px-4 py-8 mb-16">
-        <div className="grid grid-cols-1 gap-3">
+        {/* 반응형 gap: 모바일은 gap-0, 데스크탑(md 이상)은 gap-1으로 변경 */}
+        <div className="grid grid-cols-1 gap-0 md:gap-1">
           {menuItems.map((item) => (
             <MenuItem
               key={item.id}

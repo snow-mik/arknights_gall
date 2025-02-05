@@ -162,15 +162,34 @@
   justify-content: center;
 }
 
+/* 기존 ::after 삭제 또는 주석처리 */
+/*
 .events-page .menu-item::after {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 20%;
-  height: 100%;
-  background: linear-gradient(to left, var(--primary-bg-color), transparent);
+  inset: 0;
   pointer-events: none;
+  background-image:
+    linear-gradient(to left, var(--primary-bg-color), transparent),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1), transparent 15%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.1), transparent 15%);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: 20% 100%, 100% 15%, 100% 15%;
+  background-position: right center, top center, bottom center;
+  z-index: 2;
+}
+*/
+
+.events-page .menu-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to left, var(--primary-bg-color), transparent);
+  background-repeat: no-repeat;
+  background-size: 20% 100%;
+  background-position: right center;
+  z-index: 2;
 }
 
 .events-page .menu-item + .menu-item {
@@ -183,8 +202,9 @@
   inset: 0;
   height: 100%;
   width: 100%;
-  background-size: 110% auto !important;
-  background-position: left center !important;
+  /* 변경: background-size를 cover로 수정 */
+  background-size: cover !important;
+  background-position: center !important;
   background-repeat: no-repeat;
   filter: grayscale(100%);
   transition: opacity 0.3s ease, filter 0.3s ease;

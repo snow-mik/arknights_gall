@@ -29,18 +29,19 @@ const MainContent = () => {
           opts={opts}
           onReady={onReady}
           containerClassName="w-full h-full"
-          // 추가로 inline 스타일을 사용해서 확실히 채우도록 할 수도 있습니다.
           style={{ width: "100%", height: "100%" }}
         />
       </div>
       {/* 영상 위 콘텐츠 */}
-      <div className="relative z-10 flex items-left justify-left h-full">
-        <div className="text-left text-white">
-          <h1 className="text-8xl font-bold tracking-tight">
+      <div className="relative z-10 flex flex-col items-start justify-center h-full px-4 py-8">
+        <div className="text-left text-white max-w-lg">
+          {/* 텍스트 크기를 줄여서 영상 일부가 보이도록 조정 */}
+          <h1 className="text-7xl md:text-8xl font-bold tracking-tight">
             ARK-<br />NIGHTS
           </h1>
-          <p className="mt-4 text-xl text-gray-300 font-bold">명일방주 마이너 갤러리</p>
-          <p className="text-gray-400">https://gall.dcinside.com/mibj/</p>
+          <p className="mt-4 text-xl text-gray-300 font-bold">
+            명일방주 마이너 갤러리
+          </p>
         </div>
       </div>
     </div>

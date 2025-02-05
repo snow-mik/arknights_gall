@@ -9,7 +9,7 @@ function DesktopNav({ currentPage, onPageChange }) {
   return (
     <nav className="hidden md:block bg-black text-white p-4">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <div className="text-xl font-bold">명일방주 마이너 갤러리</div>
+        <div className="text-xl font-bold">명갤 정보글 모음</div>
         <div className="flex space-x-6">
           <button
             onClick={() => onPageChange('main')}
@@ -48,7 +48,7 @@ function MobileNav({ currentPage, onPageChange }) {
   return (
     <nav className="md:hidden bg-black text-white p-4">
       <div className="flex justify-between items-center">
-        <div className="text-xl font-bold">명일방주 마이너 갤러리</div>
+        <div className="text-xl font-bold">명갤 정보글 모음</div>
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label="메뉴 열기/닫기"

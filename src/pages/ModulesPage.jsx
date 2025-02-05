@@ -116,34 +116,33 @@ const ModulesPage = () => {
             </div>
           </div>
         </div>
-        {expanded && (
-          <div className="card-details expanded">
-            <h3 style={{ color: "#00d1d4", margin: "0.5rem 0" }}>
-              모듈 정보
-            </h3>
-            <div className="module-grid">
-              {["module1", "module2", "module3", "module4"].map(
-                (key, index) => {
-                  if (operator[key]) {
-                    const types = ["X형", "Y형", "Δ형", "α형"];
-                    return (
-                      <div key={index} className="module-item">
-                        <h4>{types[index]} 모듈</h4>
-                        <img
-                          src={operator[key]}
-                          alt={`${types[index]} 모듈`}
-                          className="module-img"
-                          onClick={(e) => handleZoom(e, operator[key])}
-                        />
-                      </div>
-                    );
-                  }
-                  return null;
+        {/* 항상 렌더링하고 상태에 따라 "expanded" 클래스를 토글 */}
+        <div className={`card-details ${expanded ? "expanded" : ""}`}>
+          <h3 style={{ color: "#00d1d4", margin: "0.5rem 0" }}>
+            모듈 정보
+          </h3>
+          <div className="module-grid">
+            {["module1", "module2", "module3", "module4"].map(
+              (key, index) => {
+                if (operator[key]) {
+                  const types = ["X형", "Y형", "Δ형", "α형"];
+                  return (
+                    <div key={index} className="module-item">
+                      <h4>{types[index]} 모듈</h4>
+                      <img
+                        src={operator[key]}
+                        alt={`${types[index]} 모듈`}
+                        className="module-img"
+                        onClick={(e) => handleZoom(e, operator[key])}
+                      />
+                    </div>
+                  );
                 }
-              )}
-            </div>
+                return null;
+              }
+            )}
           </div>
-        )}
+        </div>
       </div>
     );
   };

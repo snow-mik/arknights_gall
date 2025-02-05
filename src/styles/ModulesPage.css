@@ -1,7 +1,9 @@
-/* ModulesPage 전용 스타일 - 최상위 컨테이너에 .modules-page 클래스가 적용되어야 함 */
-
-/* 기존 글로벌 리셋 및 body 스타일은 제거합니다.
-   (이 파일은 ModulesPage 전용이므로, 이미 App.jsx 또는 index.css에 글로벌 리셋이 있을 가능성이 높습니다.) */
+/* CSS 변수 정의 (필요에 따라 다른 파일이나 최상위에 배치해도 됨) */
+:root {
+  --primary-color: #00d1d4;
+  --primary-shadow: rgba(0, 209, 212, 0.3);
+  --primary-glow: rgba(0, 209, 212, 0.2);
+}
 
 /* ModulesPage 전용 컨테이너 */
 .modules-page {
@@ -15,8 +17,8 @@
   text-align: center;
   font-size: 2rem;
   margin: 1.5rem 0;
-  color: #00d1d4;
-  text-shadow: 0 0 10px rgba(0, 209, 212, 0.3);
+  color: var(--primary-color);
+  text-shadow: 0 0 10px var(--primary-shadow);
 }
 
 /* 검색 섹션 */
@@ -24,12 +26,22 @@
   max-width: 600px;
   margin: 1.5rem auto;
   display: flex;
+  justify-content: center; /* 내부 요소 중앙 정렬 */
   gap: 0.5rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
 }
 
+/* 검색 내부 래퍼 */
+.modules-page .search-wrapper {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 검색 입력창 */
 .modules-page #operator-search {
   flex: 1;
   padding: 0.75rem 1rem;
@@ -42,31 +54,32 @@
 
 .modules-page #operator-search:focus {
   outline: none;
-  border-color: #00d1d4;
+  border-color: var(--primary-color);
 }
 
+/* 검색 버튼 */
 .modules-page .search-button {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #008688, #00d1d4);
+  background: linear-gradient(135deg, #008688, var(--primary-color));
   border: none;
   border-radius: 8px;
   color: white;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .modules-page .search-button:hover {
-  background: linear-gradient(135deg, #00d1d4, #00f5f8);
+  background: linear-gradient(135deg, var(--primary-color), #00f5f8);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 209, 212, 0.3);
+  box-shadow: 0 4px 12px var(--primary-shadow);
 }
 
 .modules-page .search-button:active {
   transform: translateY(1px);
 }
 
-/* 클래스/공지사항 버튼 */
+/* 클래스/공지사항 버튼 영역 */
 .modules-page #class-selection {
   display: flex;
   flex-wrap: wrap;
@@ -79,19 +92,21 @@
 .modules-page .fancy-button {
   padding: 0.75rem 1.5rem;
   background: rgba(18, 18, 18, 0.8);
-  border: 2px solid #00d1d4;
+  border: 2px solid var(--primary-color);
   border-radius: 8px;
-  color: #00d1d4;
+  color: var(--primary-color);
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
   overflow: hidden;
 }
 
 .modules-page .fancy-button:hover {
   background: rgba(0, 209, 212, 0.1);
-  box-shadow: 0 0 10px rgba(0, 209, 212, 0.2);
+  box-shadow: 0 0 10px var(--primary-shadow);
 }
 
 .modules-page .fancy-button:active {
@@ -100,7 +115,7 @@
 }
 
 .modules-page .fancy-button.active {
-  background: linear-gradient(135deg, #00d1d4, #00f5f8);
+  background: linear-gradient(135deg, var(--primary-color), #00f5f8);
   border-color: transparent;
   color: white;
   box-shadow: 0 0 15px rgba(0, 209, 212, 0.4);
@@ -113,10 +128,12 @@
   left: 50%;
   width: 0;
   height: 0;
-  background: rgba(0, 209, 212, 0.2);
+  background: var(--primary-glow);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.3s ease-out, height 0.3s ease-out, opacity 0.3s ease-out;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+              height 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+              opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   opacity: 0;
 }
 
@@ -130,7 +147,7 @@
 /* 공지사항 카드 */
 .modules-page .notice-card {
   background: rgba(255, 255, 255, 0.05);
-  border: 2px solid #00d1d4;
+  border: 2px solid var(--primary-color);
   border-radius: 12px;
   padding: 1.5rem;
   margin: 1.5rem 0;
@@ -139,9 +156,9 @@
 
 .modules-page .notice-title {
   font-size: 1.5rem;
-  color: #00d1d4;
+  color: var(--primary-color);
   margin-bottom: 1rem;
-  text-shadow: 0 0 5px rgba(0, 209, 212, 0.3);
+  text-shadow: 0 0 5px var(--primary-shadow);
 }
 
 .modules-page .notice-text {
@@ -160,7 +177,7 @@
   padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  border: 2px solid #00d1d4;
+  border: 2px solid var(--primary-color);
   box-shadow: 0 0 15px rgba(0, 209, 212, 0.15);
 }
 
@@ -176,12 +193,12 @@
   background: #1a1a1a;
   border-radius: 16px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   border: 2px solid transparent;
 }
 
 .modules-page .operator-card.selected {
-  border-color: #00d1d4;
+  border-color: var(--primary-color);
   box-shadow: 0 0 20px rgba(0, 209, 212, 0.2);
   transform: translateY(-2px);
 }
@@ -196,7 +213,7 @@
   height: 300px;
   object-fit: cover;
   border-radius: 8px;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .modules-page .operator-info {
@@ -206,7 +223,7 @@
 .modules-page .operator-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #00d1d4;
+  color: var(--primary-color);
 }
 
 .modules-page .operator-class {
@@ -215,31 +232,26 @@
   margin-top: 0.25rem;
 }
 
+/* 모듈 정보 전개 영역 - 항상 렌더링, 전환 효과 적용 */
 .modules-page .card-details {
-  max-height: 0;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
+  transform: translateY(-10px);
+  overflow: hidden;
+  height: 0;
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+              height 1s cubic-bezier(0.22, 1, 0.36, 1),
+              padding 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .modules-page .card-details.expanded {
-  max-height: 2000px;
-  padding: 1rem;
   opacity: 1;
-  animation: slideDown 0.3s ease forwards;
+  transform: translateY(0);
+  height: auto; /* 내용에 맞게 높이 자동 조절 */
+  padding: 1rem;
 }
 
-@keyframes slideDown {
-  from {
-      opacity: 0;
-      transform: translateY(-10px);
-  }
-  to {
-      opacity: 1;
-      transform: translateY(0);
-  }
-}
-
+/* 모듈 그리드 */
 .modules-page .module-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -254,7 +266,7 @@
 }
 
 .modules-page .module-item h4 {
-  color: #00d1d4;
+  color: var(--primary-color);
   margin-bottom: 0.5rem;
 }
 
@@ -262,7 +274,7 @@
   width: 100%;
   border-radius: 4px;
   cursor: zoom-in;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .modules-page .module-img:hover {
@@ -298,13 +310,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #00d1d4;
+  color: var(--primary-color);
   font-size: 2rem;
   cursor: pointer;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
-  border: 2px solid #00d1d4;
-  transition: all 0.3s ease;
+  border: 2px solid var(--primary-color);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 1001;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
@@ -327,30 +339,30 @@
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .modules-page .container {
-      padding: 0.5rem;
+    padding: 0.5rem;
   }
 
   .modules-page #operator-list {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding: 0.5rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
   }
 
   .modules-page .fancy-button {
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
 
   .modules-page .operator-thumb {
-      height: 200px;
+    height: 200px;
   }
 
   .modules-page .module-grid {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 
   .modules-page .zoom-content {
-      width: 95%;
-      margin: 1rem auto;
+    width: 95%;
+    margin: 1rem auto;
   }
 }
