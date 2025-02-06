@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useState } from 'react';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import MainContent from './pages/MainContent';
@@ -8,7 +9,7 @@ import ModulesPage from './pages/ModulesPage';
 function DesktopNav({ currentPage, onPageChange }) {
   return (
     <nav className="hidden md:block bg-black text-white p-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <div className="w-full flex justify-between items-center">
         <div className="text-xl font-bold">명갤 정보글 모음</div>
         <div className="flex space-x-6">
           <button
@@ -36,11 +37,8 @@ function DesktopNav({ currentPage, onPageChange }) {
 }
 
 // 모바일 전용 네비게이션 (햄버거 메뉴)
-// MobileNav.jsx (테스트용, CSSTransition 제거)
 function MobileNav({ currentPage, onPageChange }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  // 메뉴 항목에 한국어와 영어 텍스트 추가
   const menuItems = [
     { label: "메인", english: "MAIN", value: "main" },
     { label: "이벤트 미래시", english: "EVENT PREVIEW", value: "events" },
@@ -70,10 +68,8 @@ function MobileNav({ currentPage, onPageChange }) {
             xmlns="http://www.w3.org/2000/svg"
           >
             {isOpen ? (
-              // 닫기 아이콘 (X)
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             ) : (
-              // 햄버거 아이콘
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8h16M4 16h16" />
             )}
           </svg>
@@ -85,10 +81,11 @@ function MobileNav({ currentPage, onPageChange }) {
         classNames="mobile-menu-overlay"
         unmountOnExit
       >
-        {/* 전체 화면 오버레이: backdrop-filter로 블러 효과 적용 */}
         <div className="mobile-menu-overlay fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm overflow-y-auto">
-          {/* 메뉴 콘텐츠: 상단부터 순서대로 노출, 전체 너비 */}
-          <div className="mobile-menu-content w-full pt-8 pb-4 px-4 bg-transparent">
+          <div
+            className="mobile-menu-content w-full pt-8 pb-4 px-4 bg-transparent"
+            onClick={(e) => e.stopPropagation()}
+          >
             <ul className="flex flex-col space-y-6">
               {menuItems.map((item) => (
                 <li key={item.value}>
@@ -107,7 +104,6 @@ function MobileNav({ currentPage, onPageChange }) {
                 </li>
               ))}
             </ul>
-            {/* 필요시 닫기 버튼 (또는 햄버거 아이콘으로도 닫힘 처리) */}
             <button
               onClick={() => setIsOpen(false)}
               className="mt-6 w-full text-center text-blue-400 hover:text-blue-600"
@@ -120,8 +116,6 @@ function MobileNav({ currentPage, onPageChange }) {
     </nav>
   );
 }
-
-
 
 function App() {
   const [currentPage, setCurrentPage] = useState('main');
@@ -146,20 +140,24 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    // 최상위 컨테이너: #root에 적용된 전역 스타일(예: max-width, padding)이 있다면 이를 덮어쓰도록 합니다.
+    <div className="min-h-screen bg-black text-white relative overflow-auto">
       {/* 데스크탑 네비게이션 */}
-      <DesktopNav currentPage={currentPage} onPageChange={handlePageChange} />
+      <div className="hidden md:block">
+        <DesktopNav currentPage={currentPage} onPageChange={handlePageChange} />
+      </div>
       {/* 모바일 네비게이션 */}
-      <MobileNav currentPage={currentPage} onPageChange={handlePageChange} />
-
-      {/* 페이지 전환 애니메이션 적용 영역 */}
-      <main className="max-w-7xl mx-auto p-4 mt-16 pb-16">
+      <div className="block md:hidden">
+        <MobileNav currentPage={currentPage} onPageChange={handlePageChange} />
+      </div>
+      {/* 페이지 전환 영역: 전역 스타일의 제한을 피하기 위해 래퍼를 사용 */}
+      <div className="w-full min-h-screen m-0 p-0">
         <SwitchTransition>
           <CSSTransition key={currentPage} timeout={500} classNames="fade" unmountOnExit>
             <div>{renderPage()}</div>
           </CSSTransition>
         </SwitchTransition>
-      </main>
+      </div>
     </div>
   );
 }
