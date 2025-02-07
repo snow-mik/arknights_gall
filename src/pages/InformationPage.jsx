@@ -4,8 +4,8 @@ import "../styles/InformationPage.css";
 
 const InformationPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [userInteracted, setUserInteracted] = useState(false);
 
-  // 각 캐릭터 데이터 (좌표는 CSS에서 조정)
   const categories = [
     { id: "kalts", title: "계산식 및 메커니즘", charName: "kalts" },
     { id: "amiya", title: "오퍼레이터 정가 미래시", charName: "amiya" },
@@ -18,7 +18,6 @@ const InformationPage = () => {
     setSelectedCategory((prev) => (prev && prev.id === cat.id ? null : cat));
   };
 
-  // 이미지 URL 생성 함수 (import.meta.env.BASE_URL 활용)
   const getImageUrl = (charName, type, active) => {
     const fileName =
       type === "face"
@@ -32,11 +31,38 @@ const InformationPage = () => {
   return (
     <div className="information-page">
       <TransformWrapper
-        initialScale={1}
-        minScale={0.5}
+        initialScale={2.5}
+        initialPositionX={960}
+        initialPositionY={200}
+        minScale={2.5}
         maxScale={3}
+        limitToBounds={true}
+        limitToWrapper={true}
+        boundariesPadding={{ top: 0, bottom: 0, left: 0, right: 0 }}
         wheel={{ step: 0.1 }}
+        panning={{ velocityAnimation: false }}
         doubleClick={{ disabled: true }}
+        onPanningStart={() => setUserInteracted(true)}
+        onPanning={(ref) => {
+          if (!userInteracted) return; // 초기 상태에서는 onPanning 무시
+          const { scale, positionX, positionY } = ref.state;
+          const containerWidth = 1280;
+          const containerHeight = 720;
+          const scaledWidth = containerWidth * scale;
+          const scaledHeight = containerHeight * scale;
+          const maxX = (scaledWidth - containerWidth) / 2;
+          const maxY = (scaledHeight - containerHeight) / 2;
+
+          let newX = positionX;
+          let newY = positionY;
+          if (positionX > maxX) newX = maxX;
+          if (positionX < -maxX) newX = -maxX;
+          if (positionY > maxY) newY = maxY;
+          if (positionY < -maxY) newY = -maxY;
+          if (newX !== positionX || newY !== positionY) {
+            ref.setTransform(newX, newY, scale);
+          }
+        }}
       >
         {({ zoomIn, zoomOut, resetTransform }) => (
           <>
@@ -46,47 +72,44 @@ const InformationPage = () => {
               <button onClick={resetTransform}>Reset</button>
             </div>
             <TransformComponent wrapperStyle={{ width: "100%", height: "100%" }}>
-              <div className="character-container">
-                {/* 배경 이미지: placeholder 사용 */}
+              <div className="subpage-content">
+                <div className="background-image"></div>
                 <div
-                  className="background-image"
-                  style={{
-                    backgroundImage:
-                      "url('https://via.placeholder.com/1920x1080?text=Park+Scene')",
-                  }}
-                ></div>
-                {/* 캐릭터 아이템들 */}
-                {categories.map((cat) => (
-                  <div
-                    key={cat.id}
-                    className={`character-item ${cat.id} ${
-                      selectedCategory && selectedCategory.id === cat.id ? "selected" : ""
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCategoryClick(cat);
-                    }}
-                  >
-                    {/* 전신 이미지 */}
+                  className="character-container"
+                  onClick={() => setSelectedCategory(null)}
+                >
+                  {categories.map((cat) => (
                     <div
-                      className="character-full"
-                      style={{
-                        backgroundImage: `url('${getImageUrl(cat.charName, "full")}')`,
+                      key={cat.id}
+                      className={`character-item ${cat.id} ${
+                        selectedCategory && selectedCategory.id === cat.id
+                          ? "selected"
+                          : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCategoryClick(cat);
                       }}
-                    ></div>
-                    {/* 얼굴 이미지 */}
-                    <div
-                      className="character-face"
-                      style={{
-                        backgroundImage: `url('${getImageUrl(
-                          cat.charName,
-                          "face",
-                          selectedCategory && selectedCategory.id === cat.id
-                        )}')`,
-                      }}
-                    ></div>
-                  </div>
-                ))}
+                    >
+                      <div
+                        className="character-full"
+                        style={{
+                          backgroundImage: `url('${getImageUrl(cat.charName, "full")}')`,
+                        }}
+                      ></div>
+                      <div
+                        className="character-face"
+                        style={{
+                          backgroundImage: `url('${getImageUrl(
+                            cat.charName,
+                            "face",
+                            selectedCategory && selectedCategory.id === cat.id
+                          )}')`,
+                        }}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </TransformComponent>
           </>
