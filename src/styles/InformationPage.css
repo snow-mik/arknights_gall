@@ -1,0 +1,158 @@
+/* InformationPage.css */
+
+.information-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: black; /* 전체 배경은 검은색 */
+  overflow: hidden;
+  color: white;
+  font-family: sans-serif;
+}
+
+/* 컨트롤 버튼 (좌측 상단 고정) */
+.control-buttons {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+}
+
+.control-buttons button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  font-size: 1rem;
+}
+
+/* 캐릭터 컨테이너: 뷰포트의 2배 크기로 확장 */
+.character-container {
+  position: relative;
+  width: 200vw;
+  height: 200vh;
+}
+
+/* 배경 이미지 영역 */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover; /* 배경은 placeholder로 cover 사용 */
+  background-position: center;
+  z-index: 1;
+}
+
+/* 캐릭터 아이템 기본 스타일 */
+.character-item {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+/* 데스크탑에서 각 캐릭터 위치 (200vw, 200vh 기준) */
+.character-item.kalts {
+  left: 20%;
+  top: 30%;
+}
+.character-item.amiya {
+  left: 40%;
+  top: 25%;
+}
+.character-item.ths {
+  left: 60%;
+  top: 50%;
+}
+.character-item.rosmon {
+  left: 80%;
+  top: 30%;
+}
+.character-item.huang {
+  left: 50%;
+  top: 70%;
+}
+
+/* 전신 및 얼굴 이미지 스타일 - 수정: contain으로 변경하여 전체 이미지 표시 */
+.character-full,
+.character-face {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center top;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+/* 선택된 캐릭터 강조 효과 */
+.character-item.selected {
+  box-shadow: 0 0 15px 5px rgba(0, 209, 212, 0.8);
+  border-radius: 50%;
+}
+
+/* 세부 정보 영역 (하단 중앙 오버레이) */
+.category-details {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px 20px;
+  border-radius: 8px;
+  z-index: 100;
+}
+
+.category-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: cyan;
+  margin: 0;
+}
+
+.category-description {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* 모바일 조정을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+  .character-container {
+    width: 200vw;
+    height: 200vh;
+  }
+  .character-item {
+    width: 80px;
+    height: 80px;
+  }
+  /* 모바일에서 각 캐릭터 위치 조정 (200vw, 200vh 기준) */
+  .character-item.kalts {
+    left: 15%;
+    top: 35%;
+  }
+  .character-item.amiya {
+    left: 35%;
+    top: 30%;
+  }
+  .character-item.ths {
+    left: 55%;
+    top: 55%;
+  }
+  .character-item.rosmon {
+    left: 75%;
+    top: 30%;
+  }
+  .character-item.huang {
+    left: 45%;
+    top: 75%;
+  }
+  .category-title {
+    font-size: 1.5rem;
+  }
+  .category-description {
+    font-size: 0.9rem;
+  }
+}

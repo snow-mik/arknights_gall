@@ -4,6 +4,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import MainContent from './pages/MainContent';
 import EventsPage from './pages/EventsPage';
 import ModulesPage from './pages/ModulesPage';
+import InformationPage from './pages/InformationPage';
 
 // 데스크탑 전용 네비게이션 (가로 메뉴)
 function DesktopNav({ currentPage, onPageChange }) {
@@ -30,6 +31,12 @@ function DesktopNav({ currentPage, onPageChange }) {
           >
             모듈 상세 정보
           </button>
+          <button
+            onClick={() => onPageChange('information')}
+            className={`hover:text-blue-400 ${currentPage === 'information' ? 'text-blue-400' : 'text-white'}`}
+          >
+            게임정보
+          </button>
         </div>
       </div>
     </nav>
@@ -41,8 +48,9 @@ function MobileNav({ currentPage, onPageChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const menuItems = [
     { label: "메인", english: "MAIN", value: "main" },
-    { label: "이벤트 미래시", english: "EVENT PREVIEW", value: "events" },
+    { label: "이벤트 미래시", english: "EVENTS PREVIEW", value: "events" },
     { label: "모듈 상세 정보", english: "MODULES", value: "modules" },
+    { label: "게임정보", english: "INFORMATION", value: "information" },
   ];
 
   const toggleMenu = (e) => {
@@ -134,6 +142,8 @@ function App() {
         return <EventsPage />;
       case 'modules':
         return <ModulesPage />;
+      case 'information':
+        return <InformationPage />;
       default:
         return <MainContent />;
     }
