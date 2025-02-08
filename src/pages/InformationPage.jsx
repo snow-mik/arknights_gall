@@ -4,9 +4,11 @@ import { CSSTransition } from "react-transition-group";
 import "../styles/InformationPage.css";
 
 const InformationPage = ({ mobileMenuOpen }) => {
-  // 초기값은 모든 렌더에서 호출되어야 함
+  // 초기 렌더링 시 필요한 상태들
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  // 추가된 상태: exit 애니메이션 동안 카테고리 정보를 유지
+  const [displayedCategory, setDisplayedCategory] = useState(null);
   const [userInteracted, setUserInteracted] = useState(false);
   const [initialTransform, setInitialTransform] = useState(null);
   const transformComponentRef = useRef(null);
@@ -27,8 +29,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
   // 디버그용: true이면 모바일 offset을 0으로 적용
   const debugMobileOffset = false;
 
-  // 훅은 항상 최상위에서 호출되어야 합니다.
-  // useLayoutEffect: 초기 transform 값 계산
+  // 초기 transform 값 계산 (화면 크기에 따라)
   useLayoutEffect(() => {
     const mobile = window.innerWidth <= 768;
     setIsMobile(mobile);
@@ -106,7 +107,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
     return `${import.meta.env.BASE_URL}images/char/${charName}/${fileName}`;
   };
 
-  // useEffect: 이미지 프리로딩 (모든 렌더에서 항상 호출됨)
+  // 이미지 프리로딩
   useEffect(() => {
     categories.forEach((cat) => {
       const faceUrl = getImageUrl(cat.charName, "face", false);
@@ -121,22 +122,28 @@ const InformationPage = ({ mobileMenuOpen }) => {
 
   // 카테고리 클릭 핸들러
   const handleCategoryClick = (cat, ref) => {
-    setSelectedCategory((prev) => (prev && prev.id === cat.id ? null : cat));
-    const transformRef = ref || transformComponentRef.current;
-    if (transformRef) {
-      const targetScale = isMobile ? 1.5 : 2.5;
-      // 콘텐츠 내 캐릭터 좌표 (픽셀 단위 계산)
-      const targetX = (cat.position.x / 100) * contentWidth;
-      const targetY = (cat.position.y / 100) * contentHeight;
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const newX = viewportWidth / 2 - targetX * targetScale;
-      const newY = viewportHeight / 2 - targetY * targetScale;
-      transformRef.setTransform(newX, newY, targetScale);
+    // 같은 카테고리를 다시 클릭하면 exit 애니메이션을 위해 selectedCategory만 null로 변경
+    if (selectedCategory && selectedCategory.id === cat.id) {
+      setSelectedCategory(null);
+    } else {
+      // 새 카테고리 선택 시, 두 상태 모두 업데이트하여 내용이 바로 표시되도록 함
+      setSelectedCategory(cat);
+      setDisplayedCategory(cat);
+      const transformRef = ref || transformComponentRef.current;
+      if (transformRef) {
+        const targetScale = isMobile ? 1.5 : 2.5;
+        // 콘텐츠 내 캐릭터 좌표 계산
+        const targetX = (cat.position.x / 100) * contentWidth;
+        const targetY = (cat.position.y / 100) * contentHeight;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const newX = viewportWidth / 2 - targetX * targetScale;
+        const newY = viewportHeight / 2 - targetY * targetScale;
+        transformRef.setTransform(newX, newY, targetScale);
+      }
     }
   };
 
-  // 이제 모든 훅이 호출된 후 JSX 내부에서 조건부 렌더링을 수행합니다.
   return (
     <div className="information-page info">
       {initialTransform ? null : (
@@ -223,10 +230,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
                         <div
                           className="character-full"
                           style={{
-                            backgroundImage: `url('${getImageUrl(
-                              cat.charName,
-                              "full"
-                            )}')`,
+                            backgroundImage: `url('${getImageUrl(cat.charName, "full")}')`,
                           }}
                         ></div>
                         <div
@@ -247,6 +251,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
             )}
           </TransformWrapper>
 
+          {/* 카테고리 정보 패널: CSSTransition을 이용한 애니메이션 */}
           {!mobileMenuOpen && (
             <CSSTransition
               in={!!selectedCategory}
@@ -255,18 +260,19 @@ const InformationPage = ({ mobileMenuOpen }) => {
               unmountOnExit
               appear
               appearTimeout={500}
+              onExited={() => setDisplayedCategory(null)}
             >
               <div className="category-info">
                 <h2 className="category-title">
-                  {selectedCategory?.title}
+                  {displayedCategory?.title}
                 </h2>
                 <div className="underline"></div>
                 <p className="category-description">
-                  {selectedCategory?.description ||
+                  {displayedCategory?.description ||
                     "여기에 카테고리 설명이 들어갑니다."}
                 </p>
                 <a
-                  href={selectedCategory?.link || "#"}
+                  href={displayedCategory?.link || "#"}
                   className="read-more-button"
                   target="_blank"
                   rel="noopener noreferrer"
