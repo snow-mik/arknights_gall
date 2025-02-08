@@ -1,0 +1,7 @@
+/* src/styles/variables.css */
+:root {
+    --primary-bg-color: #000;
+    --secondary-bg-color: rgba(0, 0, 0, 0.9);
+    --accent-color: #4a90e2;
+  }
+  

@@ -1,5 +1,6 @@
 /* InformationPage.css */
 
+/* 기본 레이아웃 및 텍스트 설정 - 이전 내용과 동일 */
 .information-page {
   position: relative;
   width: 100vw;
@@ -10,42 +11,32 @@
 }
 
 /* 서브페이지 콘텐츠 – 배경과 캐릭터가 함께 이동하는 영역 */
-.subpage-content {
+/* 이전 내용과 동일 */
+.info .subpage-content {
   position: relative;
   width: 1280px;
   height: 720px;
   margin: 0 auto;
+  overflow: hidden;  /* 넘치는 부분 숨김 */
 }
 
-/* 배경 이미지 (subpage-content 내부에 있으므로, 제한된 범위 내에서만 보임) */
-.background-image {
+/* 배경 이미지 (subpage-content 내부) */
+/* 이전 내용과 동일 */
+.info .background-image {
   position: absolute;
   top: 0;
   left: 0;
-  width: 1280px;
-  height: 720px;
+  width: 100%; 
+  height: 100%; 
   background-image: url('/images/information-bg.png');
   background-size: cover;
   background-position: center;
   z-index: 1;
 }
 
-/* 컨트롤 버튼 (좌측 상단 고정) */
-.control-buttons {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 300;
-}
-
-.control-buttons button {
-  margin-right: 5px;
-  padding: 5px 10px;
-  font-size: 1rem;
-}
-
 /* 캐릭터 컨테이너 – 배경 위에 배치 */
-.character-container {
+/* 이전 내용과 동일 */
+.info .character-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -56,7 +47,8 @@
 }
 
 /* 캐릭터 아이템 기본 스타일 */
-.character-item {
+/* 이전 내용과 동일 */
+.info .character-item {
   position: absolute;
   width: 120px;
   height: 120px;
@@ -66,16 +58,16 @@
   z-index: 150;
 }
 
-/* 데스크탑 기준 캐릭터 배치 (백분율 기준) */
-.character-item.kalts { left: 60%; top: 30%; }
-.character-item.amiya { left: 50%; top: 25%; }
-.character-item.ths { left: 34%; top: 20%; }
-.character-item.rosmon { left: 46%; top: 48%; }
-.character-item.huang { left: 39%; top: 48%; }
+/* 데스크탑 기준 캐릭터 배치 (백분율 기준) - 이전 내용과 동일 */
+.info .character-item.kalts { left: 60%; top: 30%; }
+.info .character-item.amiya { left: 50%; top: 25%; }
+.info .character-item.ths { left: 40%; top: 26%; }
+.info .character-item.rosmon { left: 46%; top: 48%; }
+.info .character-item.huang { left: 40%; top: 47%; }
 
-/* 전신 및 얼굴 이미지 스타일 */
-.character-full,
-.character-face {
+/* 전신 및 얼굴 이미지 스타일 - 이전 내용과 동일 */
+.info .character-full,
+.info .character-face {
   width: 100%;
   height: 100%;
   background-size: contain;
@@ -84,33 +76,186 @@
   position: absolute;
 }
 
-/* 선택된 캐릭터 강조 효과 */
-.character-item.selected {
+/* 선택된 캐릭터 강조 효과 - 이전 내용과 동일 */
+.info .character-item.selected {
   box-shadow: 0 0 15px 5px rgba(77, 166, 255, 0.8);
   border-radius: 50%;
 }
 
-/* 세부 정보 영역 (하단 중앙 오버레이) */
-.category-details {
+/* 캐릭터 아이템 그림자 효과 - 이전 내용과 동일 */
+.info .character-item::after {
+  content: '';
   position: absolute;
-  bottom: 10%;
+  bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px 20px;
+  transform: translateX(-70%) translateY(-10%) rotate(20deg) scale(2, 1.2);
+  width: 27px;
+  height: 25px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0) 70%);
+  z-index: -1;
+}
+
+/* 세부 정보 영역 (READ MORE 등) - 이전 내용과 동일 */
+.info .category-info {
+  position: fixed;
+  top: 20%;         /* 필요에 따라 조정 */
+  left: 40px;       /* 왼쪽 정렬 */
+  width: 90%;
+  max-width: 600px;
+  text-align: left;
+  z-index: 500;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
   border-radius: 8px;
-  z-index: 400;
+  /* CSSTransition 애니메이션으로 대체: animation 속성 제거 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.category-title {
-  font-size: 2rem;
+/* 카테고리 제목 - 이전 내용과 동일 */
+.info .category-title {
+  font-size: 2.5rem;
   font-weight: bold;
-  color: cyan;
-  margin: 0;
+  color: #fff;
+  margin-bottom: 10px;
 }
 
-.category-description {
-  font-size: 1rem;
-  margin: 0;
+/* 청록색 밑줄 - 이전 내용과 동일 */
+.info .underline {
+  width: 400px; /* 원하는 길이 조정 */
+  height: 5px;
+  background-color: #00d1d4;
+  margin: 0 0 10px 0; /* 좌측 정렬 */
 }
+
+/* 설명 텍스트 - 이전 내용과 동일 */
+.info .category-description {
+  font-size: 1rem;
+  color: #fff;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* READ MORE 버튼 - 이전 내용과 동일 */
+.info .read-more-button {
+  display: inline-block;
+  background: #00d1d4;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s;
+  margin-top: 20px;
+}
+
+.info .read-more-button:hover {
+  background: #00b3c1;
+}
+
+/* 네비게이션 스타일 - 이전 내용과 동일 */
+/* 기본 설정은 별도 없음 */
+
+/* 데스크탑: 하단 네비게이션 버튼 - 이전 내용과 동일 */
+@media (min-width: 769px) {
+  .info .category-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 0;
+    z-index: 400;
+  }
+  .info .category-nav-button {
+    flex: 1;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 1.2rem;
+    margin: 0;
+    border-left: 1px solid transparent;
+    transition: all 0.3s ease;
+  }
+  .info .category-nav-button.active {
+    border-left-color: #00d1d4;
+    background: rgba(0, 209, 212, 0.2);
+  }
+}
+
+/* 모바일: 하단 네비게이션 버튼 및 정보 영역 크기 조정 - 이전 내용과 동일 */
+@media (max-width: 768px) {
+  .info .category-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    transform: none;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 0;
+    z-index: 400;
+  }
+  .info .category-nav-button {
+    margin: 0;
+    padding: 10px;
+    flex: 1;
+    text-align: center;
+    font-size: 1rem;
+  }
+  .info .category-nav-button.active {
+    background: rgba(0, 209, 212, 0.2);
+    border-top: 6px solid #00d1d4;
+  }
+  .info .category-info {
+    top: 10%;
+    left: 10px;
+    width: calc(100% - 20px);
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+  .info .category-info .category-title {
+    font-size: 1.5rem;
+  }
+  .info .category-info .category-description {
+    font-size: 0.9rem;
+  }
+  .info .category-info .read-more-button {
+    font-size: 0.9rem;
+  }
+  .info .underline {
+    width: 260px;
+    margin: 0 0 10px 0;
+  }
+  .info .read-more-button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* 수정: CSSTransition을 위한 info-fade 클래스 (InformationPage 전용 애니메이션) */
+.info-fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.info-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+.info-fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.info-fade-exit-active {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+/* 이전에 사용되던 .fade 클래스는 InformationPage에서는 info-fade로 대체됨 */
