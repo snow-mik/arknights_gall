@@ -78,7 +78,7 @@
 
 /* 선택된 캐릭터 강조 효과 - 이전 내용과 동일 */
 .info .character-item.selected {
-  box-shadow: 0 0 15px 5px rgba(77, 166, 255, 0.8);
+  filter: drop-shadow(0 0 10px rgba(0, 209, 212, 0.8));
   border-radius: 50%;
 }
 

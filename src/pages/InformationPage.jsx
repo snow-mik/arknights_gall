@@ -59,6 +59,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
       title: "계산식 및 메커니즘",
       charName: "kalts",
       position: { x: 60, y: 30 },
+      description: "명일방주내의 대미지 및 다양한 계산식 설명",
       link: "https://gall.dcinside.com/m/mibj/3513106",
     },
     {
@@ -66,6 +67,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
       title: "오퍼레이터 정가 미래시",
       charName: "amiya",
       position: { x: 50, y: 25 },
+      description: "오퍼레이터 정가 규칙에 대한 전반적 설명",
       link: "https://gall.dcinside.com/m/mibj/3449066",
     },
     {
@@ -73,6 +75,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
       title: "스토리 및 설정",
       charName: "ths",
       position: { x: 40, y: 26 },
+      description: "스토리 텍스트 리더 및 각종 설정",
       link: "https://gall.dcinside.com/m/mibj/4449436",
     },
     {
@@ -80,6 +83,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
       title: "카카오토 및 MAA 설정",
       charName: "rosmon",
       position: { x: 46, y: 48 },
+      description: "MAA 등 보조 프로그램의 설치 및 설정정",
       link: "https://gall.dcinside.com/m/mibj/4449432",
     },
     {
@@ -87,6 +91,7 @@ const InformationPage = ({ mobileMenuOpen }) => {
       title: "뉴비 가이드",
       charName: "huang",
       position: { x: 40, y: 47 },
+      description: "뉴비 가이드 (제작 중)",
       link: "https://gall.dcinside.com/mibj",
     },
   ];
@@ -212,7 +217,6 @@ const InformationPage = ({ mobileMenuOpen }) => {
         )}
       </TransformWrapper>
 
-      {/* 모바일 메뉴가 닫힌 상태일 때만 정보 영역(READ MORE 등) 렌더링 */}
       {!mobileMenuOpen && (
         <CSSTransition
           in={!!selectedCategory}
