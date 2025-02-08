@@ -1,12 +1,13 @@
-import React, { useState, useLayoutEffect, useRef } from "react";
+import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { CSSTransition } from "react-transition-group";
 import "../styles/InformationPage.css";
 
 const InformationPage = ({ mobileMenuOpen }) => {
+  // 초기값은 모든 렌더에서 호출되어야 함
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [userInteracted, setUserInteracted] = useState(false);
-  const [isMobile, setIsMobile] = useState(null);
   const [initialTransform, setInitialTransform] = useState(null);
   const transformComponentRef = useRef(null);
 
@@ -20,84 +21,106 @@ const InformationPage = ({ mobileMenuOpen }) => {
   const contentHeight = 720;
 
   // 데스크탑 기준 타겟 콘텐츠 좌표 (화면 중앙 기준)
-  const targetContentX = contentWidth / 2 + desktopInitialPositionX;
-  const targetContentY = contentHeight / 2 + desktopInitialPositionY;
+  const targetContentX = contentWidth / 2 + desktopInitialPositionX; // 예: 640 - 400 = 240
+  const targetContentY = contentHeight / 2 + desktopInitialPositionY; // 예: 360 - 200 = 160
 
-  // 클라이언트 사이즈에 따라 초기 Transform 값을 계산
+  // 디버그용: true이면 모바일 offset을 0으로 적용
+  const debugMobileOffset = false;
+
+  // 훅은 항상 최상위에서 호출되어야 합니다.
+  // useLayoutEffect: 초기 transform 값 계산
   useLayoutEffect(() => {
     const mobile = window.innerWidth <= 768;
     setIsMobile(mobile);
+    let newTransform;
     if (mobile) {
       const mobileScale = 1.5;
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
       let mobileInitialX = viewportWidth / 2 - targetContentX * mobileScale;
       let mobileInitialY = viewportHeight / 2 - targetContentY * mobileScale;
-      // 모바일 전용 추가 오프셋 (필요시 미세 조정)
-      const mobileOffsetX = -600;
-      const mobileOffsetY = 0;
-      mobileInitialX += mobileOffsetX;
-      mobileInitialY += mobileOffsetY;
-      setInitialTransform({ x: mobileInitialX, y: mobileInitialY, scale: mobileScale });
+      if (!debugMobileOffset) {
+        const baseMobileWidth = 768; // 디자인 기준 모바일 너비
+        const mobileOffsetX = -1080 * (viewportWidth / baseMobileWidth);
+        mobileInitialX += mobileOffsetX;
+      } else {
+        console.log("DEBUG: Mobile offset disabled (set to 0)");
+      }
+      newTransform = { x: mobileInitialX, y: mobileInitialY, scale: mobileScale };
+      console.log("Mobile transform:", newTransform);
     } else {
-      setInitialTransform({
-        x: desktopInitialPositionX,
-        y: desktopInitialPositionY,
-        scale: desktopInitialScale,
-      });
+      newTransform = { x: desktopInitialPositionX, y: desktopInitialPositionY, scale: desktopInitialScale };
+      console.log("Desktop transform:", newTransform);
     }
-  }, []);
+    setInitialTransform(newTransform);
+  }, [debugMobileOffset, targetContentX, targetContentY]);
 
-  // isMobile 또는 initialTransform이 준비되지 않으면 렌더링 중단
-  if (isMobile === null || initialTransform === null) {
-    return null;
-  }
-
+  // 카테고리 데이터 (각 항목에 description 포함)
   const categories = [
     {
       id: "kalts",
       title: "계산식 및 메커니즘",
       charName: "kalts",
       position: { x: 60, y: 30 },
-      description: "명일방주내의 대미지 및 다양한 계산식 설명",
       link: "https://gall.dcinside.com/m/mibj/3513106",
+      description: "명일방주 대미지 계산식 및 전투 메커니즘",
     },
     {
       id: "amiya",
       title: "오퍼레이터 정가 미래시",
       charName: "amiya",
       position: { x: 50, y: 25 },
-      description: "오퍼레이터 정가 규칙에 대한 전반적 설명",
       link: "https://gall.dcinside.com/m/mibj/3449066",
+      description: "오퍼레이터 노티 정가 및 한정 규칙",
     },
     {
       id: "ths",
       title: "스토리 및 설정",
       charName: "ths",
       position: { x: 40, y: 26 },
-      description: "스토리 텍스트 리더 및 각종 설정",
       link: "https://gall.dcinside.com/m/mibj/4449436",
+      description: "명일방주 스토리 리더 및 배경설정 관련",
     },
     {
       id: "rosmon",
       title: "카카오토 및 MAA 설정",
       charName: "rosmon",
       position: { x: 46, y: 48 },
-      description: "MAA 등 보조 프로그램의 설치 및 설정정",
       link: "https://gall.dcinside.com/m/mibj/4449432",
+      description: "MAA 등의 보조 외부프로그램 설정 등",
     },
     {
       id: "huang",
       title: "뉴비 가이드",
       charName: "huang",
       position: { x: 40, y: 47 },
-      description: "뉴비 가이드 (제작 중)",
       link: "https://gall.dcinside.com/mibj",
+      description: "뉴비가이드 누가 작성 좀 해봐라",
     },
   ];
 
+  // 이미지 URL 생성 함수
+  const getImageUrl = (charName, type, active) => {
+    const fileName =
+      type === "face" ? (active ? "face_active.png" : "face.png") : `${type}.png`;
+    return `${import.meta.env.BASE_URL}images/char/${charName}/${fileName}`;
+  };
+
+  // useEffect: 이미지 프리로딩 (모든 렌더에서 항상 호출됨)
+  useEffect(() => {
+    categories.forEach((cat) => {
+      const faceUrl = getImageUrl(cat.charName, "face", false);
+      const faceActiveUrl = getImageUrl(cat.charName, "face", true);
+      const fullUrl = getImageUrl(cat.charName, "full");
+
+      new Image().src = faceUrl;
+      new Image().src = faceActiveUrl;
+      new Image().src = fullUrl;
+    });
+  }, [categories]);
+
+  // 카테고리 클릭 핸들러
   const handleCategoryClick = (cat, ref) => {
-    // 같은 카테고리 클릭 시 토글로 해제
     setSelectedCategory((prev) => (prev && prev.id === cat.id ? null : cat));
     const transformRef = ref || transformComponentRef.current;
     if (transformRef) {
@@ -113,135 +136,147 @@ const InformationPage = ({ mobileMenuOpen }) => {
     }
   };
 
-  const getImageUrl = (charName, type, active) => {
-    const fileName =
-      type === "face" ? (active ? "face_active.png" : "face.png") : `${type}.png`;
-    return `${import.meta.env.BASE_URL}images/char/${charName}/${fileName}`;
-  };
-
+  // 이제 모든 훅이 호출된 후 JSX 내부에서 조건부 렌더링을 수행합니다.
   return (
     <div className="information-page info">
-      <div className="category-nav">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            className={`category-nav-button ${
-              selectedCategory?.id === cat.id ? "active" : ""
-            }`}
-            onClick={() => handleCategoryClick(cat, transformComponentRef.current)}
-          >
-            {cat.title}
-          </button>
-        ))}
-      </div>
-
-      <TransformWrapper
-        ref={transformComponentRef}
-        initialScale={initialTransform.scale}
-        initialPositionX={initialTransform.x}
-        initialPositionY={initialTransform.y}
-        minScale={isMobile ? 1.5 : 2.5}
-        maxScale={3}
-        limitToBounds={true}
-        limitToWrapper={false}
-        boundariesPadding={{ top: 0, bottom: 0, left: 0, right: 0 }}
-        wheel={{ step: 0.1 }}
-        panning={{
-          velocityAnimation: true,
-          velocityMinSpeed: 0.2,
-          velocityBaseTime: 500,
-          animationTime: 300,
-          animationThreshold: 0.1,
-          padding: { top: 0, bottom: 0, left: 0, right: 0 },
-        }}
-        doubleClick={{ disabled: true }}
-        onPanningStart={() => setUserInteracted(true)}
-        onPanning={(ref) => {
-          if (!userInteracted) return;
-          const { scale, positionX, positionY } = ref.state;
-          const scaledWidth = contentWidth * scale;
-          const scaledHeight = contentHeight * scale;
-          const maxX = (scaledWidth - contentWidth) / 2;
-          const maxY = (scaledHeight - contentHeight) / 2;
-          let newX = positionX;
-          let newY = positionY;
-          if (positionX > maxX) newX = maxX;
-          if (positionX < -maxX) newX = -maxX;
-          if (positionY > maxY) newY = maxY;
-          if (positionY < -maxY) newY = -maxY;
-          if (newX !== positionX || newY !== positionY) {
-            ref.setTransform(newX, newY, scale);
-          }
-        }}
-      >
-        {() => (
-          <TransformComponent wrapperStyle={{ width: "100%", height: "100%" }}>
-            <div className="subpage-content">
-              <div className="background-image"></div>
-              <div
-                className="character-container"
-                onClick={() => setSelectedCategory(null)}
+      {initialTransform ? null : (
+        <div style={{ color: "#fff", padding: "20px" }}>Loading...</div>
+      )}
+      {initialTransform && (
+        <>
+          <div className="category-nav">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                className={`category-nav-button ${
+                  selectedCategory?.id === cat.id ? "active" : ""
+                }`}
+                onClick={() =>
+                  handleCategoryClick(cat, transformComponentRef.current)
+                }
               >
-                {categories.map((cat) => (
-                  <div
-                    key={cat.id}
-                    className={`character-item ${cat.id} ${
-                      selectedCategory && selectedCategory.id === cat.id ? "selected" : ""
-                    }`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCategoryClick(cat);
-                    }}
-                  >
-                    <div
-                      className="character-full"
-                      style={{
-                        backgroundImage: `url('${getImageUrl(cat.charName, "full")}')`,
-                      }}
-                    ></div>
-                    <div
-                      className="character-face"
-                      style={{
-                        backgroundImage: `url('${getImageUrl(
-                          cat.charName,
-                          "face",
-                          selectedCategory && selectedCategory.id === cat.id
-                        )}')`,
-                      }}
-                    ></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </TransformComponent>
-        )}
-      </TransformWrapper>
-
-      {!mobileMenuOpen && (
-        <CSSTransition
-          in={!!selectedCategory}
-          timeout={500}
-          classNames="info-fade"
-          unmountOnExit
-          appear
-          appearTimeout={500}
-        >
-          <div className="category-info">
-            <h2 className="category-title">{selectedCategory?.title}</h2>
-            <div className="underline"></div>
-            <p className="category-description">
-              {selectedCategory?.description || "여기에 카테고리 설명이 들어갑니다."}
-            </p>
-            <a
-              href={selectedCategory?.link || "#"}
-              className="read-more-button"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              READ MORE
-            </a>
+                {cat.title}
+              </button>
+            ))}
           </div>
-        </CSSTransition>
+
+          <TransformWrapper
+            ref={transformComponentRef}
+            initialScale={initialTransform.scale}
+            initialPositionX={initialTransform.x}
+            initialPositionY={initialTransform.y}
+            minScale={isMobile ? 1.5 : 2.5}
+            maxScale={3}
+            limitToBounds={true}
+            limitToWrapper={false}
+            boundariesPadding={{ top: 0, bottom: 0, left: 0, right: 0 }}
+            wheel={{ step: 0.1 }}
+            panning={{
+              velocityAnimation: true,
+              velocityMinSpeed: 0.2,
+              velocityBaseTime: 500,
+              animationTime: 300,
+              animationThreshold: 0.1,
+              padding: { top: 0, bottom: 0, left: 0, right: 0 },
+            }}
+            doubleClick={{ disabled: true }}
+            onPanningStart={() => setUserInteracted(true)}
+            onPanning={(ref) => {
+              if (!userInteracted) return;
+              const { scale, positionX, positionY } = ref.state;
+              const scaledWidth = contentWidth * scale;
+              const scaledHeight = contentHeight * scale;
+              const maxX = (scaledWidth - contentWidth) / 2;
+              const maxY = (scaledHeight - contentHeight) / 2;
+              let newX = positionX;
+              let newY = positionY;
+              if (positionX > maxX) newX = maxX;
+              if (positionX < -maxX) newX = -maxX;
+              if (positionY > maxY) newY = maxY;
+              if (positionY < -maxY) newY = -maxY;
+              if (newX !== positionX || newY !== positionY) {
+                ref.setTransform(newX, newY, scale);
+              }
+            }}
+          >
+            {() => (
+              <TransformComponent wrapperStyle={{ width: "100%", height: "100%" }}>
+                <div className="subpage-content">
+                  <div className="background-image"></div>
+                  <div
+                    className="character-container"
+                    onClick={() => setSelectedCategory(null)}
+                  >
+                    {categories.map((cat) => (
+                      <div
+                        key={cat.id}
+                        className={`character-item ${cat.id} ${
+                          selectedCategory && selectedCategory.id === cat.id
+                            ? "selected"
+                            : ""
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCategoryClick(cat);
+                        }}
+                      >
+                        <div
+                          className="character-full"
+                          style={{
+                            backgroundImage: `url('${getImageUrl(
+                              cat.charName,
+                              "full"
+                            )}')`,
+                          }}
+                        ></div>
+                        <div
+                          className="character-face"
+                          style={{
+                            backgroundImage: `url('${getImageUrl(
+                              cat.charName,
+                              "face",
+                              selectedCategory && selectedCategory.id === cat.id
+                            )}')`,
+                          }}
+                        ></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </TransformComponent>
+            )}
+          </TransformWrapper>
+
+          {!mobileMenuOpen && (
+            <CSSTransition
+              in={!!selectedCategory}
+              timeout={500}
+              classNames="info-fade"
+              unmountOnExit
+              appear
+              appearTimeout={500}
+            >
+              <div className="category-info">
+                <h2 className="category-title">
+                  {selectedCategory?.title}
+                </h2>
+                <div className="underline"></div>
+                <p className="category-description">
+                  {selectedCategory?.description ||
+                    "여기에 카테고리 설명이 들어갑니다."}
+                </p>
+                <a
+                  href={selectedCategory?.link || "#"}
+                  className="read-more-button"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  READ MORE
+                </a>
+              </div>
+            </CSSTransition>
+          )}
+        </>
       )}
     </div>
   );
