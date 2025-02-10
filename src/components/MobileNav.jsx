@@ -10,6 +10,7 @@ const MobileNav = ({ currentPage, onPageChange }) => {
     { label: "이벤트 미래시", english: "EVENTS PREVIEW", value: "events" },
     { label: "모듈 상세 정보", english: "MODULES", value: "modules" },
     { label: "게임정보", english: "INFORMATION", value: "information" },
+    { label: '작전', english: "OPERATIONS", value:"operations"},
   ];
 
   const toggleMenu = (e) => {

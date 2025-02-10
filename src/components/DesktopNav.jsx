@@ -31,6 +31,12 @@ function DesktopNav({ currentPage, onPageChange }) {
           >
             게임정보
           </button>
+          <button
+            onClick={() => onPageChange('operations')}
+            className={`hover:text-blue-400 ${currentPage === 'operations' ? 'text-blue-400' : 'text-white'}`}
+          >
+            작전
+          </button>
         </div>
       </div>
     </nav>

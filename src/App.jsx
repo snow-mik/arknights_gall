@@ -5,6 +5,7 @@ import MainContent from './pages/MainContent';
 import EventsPage from './pages/EventsPage';
 import ModulesPage from './pages/ModulesPage';
 import InformationPage from './pages/InformationPage';
+import OperationsPage from './pages/OperationsPage';
 import DesktopNav from './components/DesktopNav';
 import MobileNav from './components/MobileNav';
 
@@ -27,6 +28,8 @@ function App() {
         return <ModulesPage />;
       case 'information':
         return <InformationPage />;
+      case 'operations':
+        return <OperationsPage/>;
       default:
         return <MainContent />;
     }
