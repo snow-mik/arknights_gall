@@ -63,7 +63,7 @@ const EventsPage = () => {
     { id: 'preview-dungeon-meshi', text: '테라밥', bgImage: '/images/event-dungeon-meshi.jpg', link: 'https://gall.dcinside.com/m/mibj/5436645' },
     { id: 'preview-vector', text: '벡터 브레이크스루', bgImage: '/images/event-vector-breakthrough.jpg', link: 'https://gall.dcinside.com/m/mibj/5461517' },
     { id: 'preview-west', text: '해 지는 곳을 따라서', bgImage: '/images/event-west.jpg', link: 'https://gall.dcinside.com/m/mibj/5462923' },
-    { id: 'preview-ggozzil', text: '벨벳의 폭로자들', bgImage: '/images/event-ggozzil.jpg', link: 'https://gall.dcinside.com/m/mibj/5464489' },
+    { id: 'preview-ggozzil', text: '벨벳의 폭로자들', bgImage: '/images/event-ggozzil.jpg', link: 'https://gall.dcinside.com/m/mibj/5515560' },
     { id: 'preview-stronghold', text: '방어협정', bgImage: '/images/event-stronghold.jpg', link: 'https://gall.dcinside.com/m/mibj/5464489' },
     { id: 'preview-wife-rerun', text: '츠빌링슈튀르메의 가을 재개방', bgImage: '/images/event-wife-rerun.jpg', link: 'https://gall.dcinside.com/m/mibj/5464489' },
     { id: 'preview-pale-sea', text: '창백한 바다를 떠나며', bgImage: '/images/event-pale-sea.jpg', link: 'https://gall.dcinside.com/m/mibj/5464489' },
